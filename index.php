@@ -3,6 +3,7 @@
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
+use Mannion007\RepositoryPattern\Repository\GameRepository;
 
 require_once('vendor/autoload.php');
 
@@ -13,7 +14,7 @@ $loader = new YamlFileLoader(
 );
 $loader->load('services.yml');
 
-/** @var \Mannion007\RepositoryPattern\Repository\GameRepository $gameRepository */
+/** @var GameRepository $gameRepository */
 $gameRepository = $container->get('game-repository');
 
 echo '<h3>All Games</h3>';
