@@ -22,5 +22,5 @@ var_dump($gameRepository->findAll());
 echo '<h3>Game #5</h3>';
 var_dump($gameRepository->find(5));
 
-echo '<h3>Megadrive Games #5</h3>';
+echo '<h3>Megadrive Games only</h3>';
 var_dump($gameRepository->findMegadrive());
