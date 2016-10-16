@@ -1,0 +1,22 @@
+parameters:
+  mysql-username: toor
+  mysql-password: toor
+  mysql-host: mysql-storage
+  mysql-db-name: games
+
+services:
+  mysql-game-storage:
+    class: Mannion007\RepositoryPattern\Storage\Game\MySqlStorageAdapter
+    arguments:
+      - %mysql-username%
+      - %mysql-password%
+      - %mysql-host%
+      - %mysql-db-name%
+
+  in-memory-game-storage:
+    class: Mannion007\RepositoryPattern\Storage\Game\InMemoryStorageAdapter
+
+  game-repository:
+    class: Mannion007\RepositoryPattern\Repository\GameRepository
+    arguments:
+      - "@mysql-game-storage"

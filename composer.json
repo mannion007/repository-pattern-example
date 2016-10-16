@@ -1,0 +1,23 @@
+{
+    "name": "mannion007/repository-pattern",
+    "description": "A demonstration implementation of the Repository Pattern in PHP",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "James Mannion",
+            "email": "mannion007@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Mannion007\\RepositoryPattern\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "symfony/dependency-injection": "^3.1",
+        "symfony/config": "^3.1",
+        "symfony/yaml": "^3.1",
+        "squizlabs/php_codesniffer": "^2.7"
+    }
+}

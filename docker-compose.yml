@@ -1,0 +1,19 @@
+version: '2'
+services:
+  web:
+    build:
+      context: ./build
+      dockerfile: Dockerfile-web
+    volumes:
+      - .:/var/www/html
+    links:
+      - mysql-storage
+  mysql-storage:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=thrillhouse
+      - MYSQL_DATABASE=games
+      - MYSQL_USER=toor
+      - MYSQL_PASSWORD=toor
+    volumes:
+      - ./build/sql:/docker-entrypoint-initdb.d
