@@ -25,12 +25,6 @@ class MySqlStorageAdapter implements GameStorageAdapterInterface
         return sprintf('mysql:dbname=%s;host=%s;port=%s', $dbName, $host, $port);
     }
 
-    /**
-     * Retrieve a single game from storage by ID
-     *
-     * @param int $gameId
-     * @return mixed
-     */
     public function find(int $gameId)
     {
         $sql = 'SELECT game_id, title, platform FROM games WHERE game_id = :id';
@@ -39,11 +33,6 @@ class MySqlStorageAdapter implements GameStorageAdapterInterface
         return $statement->fetch(\PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Retrieve all games from storage
-     *
-     * @return array
-     */
     public function findAll() : array
     {
         $sql = 'SELECT game_id, title, platform FROM games';
@@ -52,31 +41,24 @@ class MySqlStorageAdapter implements GameStorageAdapterInterface
         return $statement->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    /**
-     * Persist a game to storage
-     *
-     * @param Game $game
-     * @return Game
-     */
     public function persist(Game $game) : Game
     {
-        if (false === is_null($game->getGameId())) {
-            $sql = 'UPDATE games SET title = :title, platform = :platform WHERE game_id = :game_id';
-            $statement = $this->connection->prepare($sql);
-            $statement->execute(
-                [
-                    ':title' => $game->getTitle(), ':platform' => $game->getPlatform(), 'game_id' => $game->getGameId()
-                ]
-            );
-            $updatedId = $game->getGameId();
-            return $this->find($updatedId);
-        } else {
+        if (true === is_null($game->getGameId())) {
             $sql = 'INSERT INTO games (title, platform) VALUES (:title, :platform)';
             $statement = $this->connection->prepare($sql);
             $statement->execute([':title' => $game->getTitle(), ':platform' => $game->getPlatform()]);
-            $insertedId = $this->connection->lastInsertId();
-            return $this->find($insertedId);
+            return Game::create($this->connection->lastInsertId(), $game->getTitle(), $game->getPlatform());
         }
+
+        $sql = 'UPDATE games SET title = :title, platform = :platform WHERE game_id = :game_id';
+        $statement = $this->connection->prepare($sql);
+        $statement->execute(
+            [
+                ':title' => $game->getTitle(), ':platform' => $game->getPlatform(), 'game_id' => $game->getGameId()
+            ]
+        );
+
+        return $game;
     }
 
     public function findGamesOnPlatform(string $platform)

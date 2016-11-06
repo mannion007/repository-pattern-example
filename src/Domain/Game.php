@@ -12,12 +12,6 @@ class Game
     private $title;
     private $platform;
 
-    /**
-     * Game constructor.
-     * @param string $gameId
-     * @param string $title
-     * @param string $platform
-     */
     public function __construct(string $gameId, string $title, string $platform)
     {
         $this->gameId = $gameId;
@@ -25,38 +19,21 @@ class Game
         $this->platform = $platform;
     }
 
-    /**
-     * Game Factory...
-     *
-     * @param int $gameId
-     * @param string $title
-     * @param string $platform
-     * @return Game
-     */
-    public static function createFrom(int $gameId, string $title, string $platform) : Game
+    public static function create(int $gameId, string $title, string $platform) : Game
     {
         return new static($gameId, $title, $platform);
     }
 
-    /**
-     * @return mixed
-     */
     public function getGameId()
     {
         return $this->gameId;
     }
 
-    /**
-     * @return mixed
-     */
     public function getTitle()
     {
         return $this->title;
     }
 
-    /**
-     * @return mixed
-     */
     public function getPlatform()
     {
         return $this->platform;

@@ -10,36 +10,19 @@ use Mannion007\RepositoryPattern\Domain\Game;
 
 class InMemoryStorageAdapter implements GameStorageAdapterInterface
 {
-    /** @var array $games */
+    /** @var Game[] $games */
     private $games = [];
 
-    /**
-     * Retrieve a single game from storage by ID
-     *
-     * @param int $gameId
-     * @return mixed
-     */
     public function find(int $gameId)
     {
         return $this->games[$gameId];
     }
 
-    /**
-     * Retrieve all games from storage
-     *
-     * @return array
-     */
     public function findAll() : array
     {
         return $this->games;
     }
 
-    /**
-     * Retrieve all games for a given platform from storage
-     *
-     * @param string $platform
-     * @return mixed
-     */
     public function findGamesOnPlatform(string $platform)
     {
         return array_filter(
@@ -50,19 +33,12 @@ class InMemoryStorageAdapter implements GameStorageAdapterInterface
         );
     }
 
-    /**
-     * Persist a game to storage
-     *
-     * @param Game $game
-     * @return Game
-     */
     public function persist(Game $game) : Game
     {
-        if (false === is_null($game->getGameId())) {
-            $gameId = $game->getGameId();
-        } else {
-            $gameId = count($this->games);
+        if (true === is_null($game->getGameId())) {
+            $game = Game::create(count($this->games), $game->getTitle(), $game->getPlatform());
         }
-        $this->games[$gameId] = $game;
+        $this->games[$game->getGameId()] = $game;
+        return $game;
     }
 }
